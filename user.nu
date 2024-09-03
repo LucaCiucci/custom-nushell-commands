@@ -3,6 +3,10 @@ export def present [] {
     print $"  (ansi green_bold)Luca Ciucci(ansi reset) <(ansi blue)luca.ciucci99@gmail.com(ansi reset)> <https://lucaciucci.github.io/>"
 }
 
+export def present-bugseng [] {
+    print $"  (ansi green_bold)Luca @ Bugseng(ansi reset) <(ansi blue)luca@support.bugseng.com(ansi reset)> <https://Bugseng.com/>"
+}
+
 # Create a symlink
 export def symlink [
     existing: path   # The existing file
