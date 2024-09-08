@@ -4,7 +4,7 @@ export def present [] {
 }
 
 export def present-bugseng [] {
-    print $"  (ansi green_bold)Luca Ciucci @ Bugseng(ansi reset) <(ansi blue)luca@support.bugseng.com(ansi reset)> <https://Bugseng.com/>"
+    print $"  (ansi green_bold)Luca Ciucci @ Bugseng(ansi reset) <(ansi blue)luca@support.bugseng.com(ansi reset)> <https://bugseng.com/>"
 }
 
 # Create a symlink
