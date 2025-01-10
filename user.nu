@@ -1,5 +1,23 @@
+def branch_prompt [] {
+    let branch = do {
+        let response = git branch --show-current | complete
+        if $response.exit_code == 0 {
+            let branch = $response.stdout | lines | get 0
+            let no_changes = (git status --porcelain | str trim) == ""
+            let color = if $no_changes { ansi grey } else { ansi xterm_maroon }
+            $"(ansi grey)\((ansi reset)($color)($branch)(ansi reset)(ansi grey)\)(ansi reset)"
+        } else {
+            ""
+        }
+    }
 
-export def present [] {
+    $in + $branch
+}
+
+
+export def --env present [] {
+    let default_prompt = $env.PROMPT_COMMAND
+    $env.PROMPT_COMMAND = {|| do $default_prompt | branch_prompt }
     print $"  (ansi green_bold)Luca Ciucci(ansi reset) <(ansi blue)luca.ciucci99@gmail.com(ansi reset)> <https://lucaciucci.github.io/>"
 }
 
