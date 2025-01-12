@@ -4,6 +4,17 @@ def branch_prompt [] {
         if $response.exit_code == 0 {
             let branch = $response.stdout | lines | get 0
             let no_changes = (git status --porcelain | str trim) == ""
+            #let unpushed = (git log @{u}..HEAD --oneline | lines | count) > 0
+            let unpushed_mark = if (git log --branches --not --remotes | lines | length) > 0 {
+                $"(ansi purple)↑(ansi reset)"
+            } else {
+                ""
+            }
+            let unpulled_mark = if (git log --remotes --not --branches | lines | length) > 0 {
+                $"(ansi red)↓(ansi reset)"
+            } else {
+                ""
+            }
             let color = if $no_changes { ansi grey } else { ansi xterm_maroon }
             $"(ansi grey)\((ansi reset)($color)($branch)(ansi reset)(ansi grey)\)(ansi reset)"
         } else {
