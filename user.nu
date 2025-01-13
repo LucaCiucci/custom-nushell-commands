@@ -16,7 +16,7 @@ def branch_prompt [] {
                 ""
             }
             let color = if $no_changes { ansi grey } else { ansi xterm_maroon }
-            $"(ansi grey)\((ansi reset)($color)($branch)(ansi reset)(ansi grey)\)(ansi reset)"
+            $"(ansi grey)\((ansi reset)($color)($branch)(ansi reset)($unpushed_mark)($unpulled_mark)(ansi grey)\)(ansi reset)"
         } else {
             ""
         }
