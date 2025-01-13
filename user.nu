@@ -8,21 +8,21 @@ def branch_prompt [] {
             let unpushed_mark = if (git log --branches --not --remotes | lines | length) > 0 {
                 $"(ansi purple)↑(ansi reset)"
             } else {
-                ""
+                "boh"
             }
             let unpulled_mark = if (git log --remotes --not --branches | lines | length) > 0 {
                 $"(ansi red)↓(ansi reset)"
             } else {
-                ""
+                "no"
             }
             let color = if $no_changes { ansi grey } else { ansi xterm_maroon }
             $"(ansi grey)\((ansi reset)($color)($branch)(ansi reset)(ansi grey)\)(ansi reset)"
         } else {
-            ""
+            "foo"
         }
     }
 
-    $in + $branch
+    $in + $branch + "---"
 }
 
 
@@ -32,7 +32,7 @@ export def --env present [] {
     print $"  (ansi green_bold)Luca Ciucci(ansi reset) <(ansi blue)luca.ciucci99@gmail.com(ansi reset)> <https://lucaciucci.github.io/>"
 }
 
-export def present-bugseng [] {
+export def --env present-bugseng [] {
     let default_prompt = $env.PROMPT_COMMAND
     $env.PROMPT_COMMAND = {|| do $default_prompt | branch_prompt }
     print $"  (ansi green_bold)Luca Ciucci @ Bugseng(ansi reset) <(ansi blue)luca.ciucci@bugseng.com(ansi reset)> <https://bugseng.com/>"
