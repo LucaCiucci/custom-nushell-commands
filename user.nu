@@ -22,7 +22,7 @@ def branch_prompt [] {
         }
     }
 
-    $in + $branch + "---"
+    $in + $branch
 }
 
 
