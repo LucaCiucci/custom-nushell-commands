@@ -8,17 +8,17 @@ def branch_prompt [] {
             let unpushed_mark = if (git log --branches --not --remotes | lines | length) > 0 {
                 $"(ansi purple)↑(ansi reset)"
             } else {
-                "boh"
+                ""
             }
             let unpulled_mark = if (git log --remotes --not --branches | lines | length) > 0 {
                 $"(ansi red)↓(ansi reset)"
             } else {
-                "no"
+                ""
             }
             let color = if $no_changes { ansi grey } else { ansi xterm_maroon }
             $"(ansi grey)\((ansi reset)($color)($branch)(ansi reset)(ansi grey)\)(ansi reset)"
         } else {
-            "foo"
+            ""
         }
     }
 
