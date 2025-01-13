@@ -33,6 +33,8 @@ export def --env present [] {
 }
 
 export def present-bugseng [] {
+    let default_prompt = $env.PROMPT_COMMAND
+    $env.PROMPT_COMMAND = {|| do $default_prompt | branch_prompt }
     print $"  (ansi green_bold)Luca Ciucci @ Bugseng(ansi reset) <(ansi blue)luca.ciucci@bugseng.com(ansi reset)> <https://bugseng.com/>"
 }
 
