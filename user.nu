@@ -3,18 +3,11 @@ def branch_prompt [] {
         let response = git branch --show-current | complete
         if $response.exit_code == 0 {
             let branch = $response.stdout | lines | get 0
-            let no_changes = (git status --porcelain | str trim) == ""
-            #let unpushed = (git log @{u}..HEAD --oneline | lines | count) > 0
-            let unpushed_mark = if (git log --branches --not --remotes | lines | length) > 0 {
-                $"(ansi purple)↑(ansi reset)"
-            } else {
-                ""
-            }
-            let unpulled_mark = if (git log --remotes --not --branches | lines | length) > 0 {
-                $"(ansi red)↓(ansi reset)"
-            } else {
-                ""
-            }
+            let no_changes = (git diff-index --quiet HEAD -- | complete | get exit_code) == 0
+            let unpushed = (git log --branches --not --remotes --max-count=1 | lines | length) > 0
+            let unpulled = (git log --remotes --not --branches --max-count=1 | lines | length) > 0
+            let unpushed_mark = if $unpushed { $"(ansi purple)↑(ansi reset)" } else { "" }
+            let unpulled_mark = if $unpulled { $"(ansi red)↓(ansi reset)" } else { "" }
             let color = if $no_changes { ansi grey } else { ansi xterm_maroon }
             $"(ansi grey)\((ansi reset)($color)($branch)(ansi reset)($unpushed_mark)($unpulled_mark)(ansi grey)\)(ansi reset)"
         } else {
