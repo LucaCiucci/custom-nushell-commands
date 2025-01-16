@@ -6,10 +6,12 @@ def branch_prompt [] {
             let no_changes = (git diff-index --quiet HEAD -- | complete | get exit_code) == 0
             let unpushed = (git log --branches --not --remotes --max-count=1 | lines | length) > 0
             let unpulled = (git log --remotes --not --branches --max-count=1 | lines | length) > 0
+            let staged = (git diff --staged --quiet | complete | get exit_code) == 1
             let unpushed_mark = if $unpushed { $"(ansi purple)↑(ansi reset)" } else { "" }
             let unpulled_mark = if $unpulled { $"(ansi red)↓(ansi reset)" } else { "" }
-            let color = if $no_changes { ansi grey } else { ansi xterm_maroon }
-            $"(ansi grey)\((ansi reset)($color)($branch)(ansi reset)($unpushed_mark)($unpulled_mark)(ansi grey)\)(ansi reset)"
+            let staged_mark = if $staged { $"(ansi yellow)●(ansi reset)" } else { "" }
+            let color = if $no_changes { ansi grey } else { ansi xterm_gold3b }
+            $"(ansi grey)\((ansi reset)($color)($branch)(ansi reset)($unpushed_mark)($unpulled_mark)($staged_mark)(ansi grey)\)(ansi reset)"
         } else {
             ""
         }
